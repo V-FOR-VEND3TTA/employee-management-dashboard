@@ -1,0 +1,23 @@
+<p>Showing results for employeer number {{ employee.employee_number}}, in the {{ employee.department }}</p>
+<table>
+    <thead>
+        <tr>
+            <th>Employee Number</th>
+            <th>Department</th>
+            <th>Payroll ID</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for employee in results %}
+        <tr>
+            <td>{{ employee.employee_number }}</td>
+            <td>{{ employee.department }}</td>
+            <td>{{ employee.payroll_id }}</td>
+            <td>{{ employee.start_date }}</td>
+            <td>{{ employee.end_date }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,59 @@
+{% extends 'main/base.html' %}
+{% block title %}Home Page{% endblock %}
+{% block content %}
+
+<!--Search Input-->
+<div class="input-group mt-2">
+    <input type="text" class="form-control" placeholder="Search...">
+    <div class="input-group-append">
+      <!--<span class="input-group-text">Go</span>-->
+      <button type="button" class="btn btn-primary">Search</button>
+          <!-- Dropdown menu links -->
+        </ul>
+      </div>
+    </div>
+</div>
+<!--Search Input End-->
+
+<!---->
+
+<!--Table START-->
+<div class="container">
+  <br><br><br>
+  <h3 class="m-4">Workspace</h3>
+  <table class="table table-bordered" id="example" style="text-align: center;">
+    <thead class="tables-success">
+      <tr>
+        <th>Employee #</th>
+        <th>Shift Date</th>
+        <th>Time Code</th>
+        <th>Time Authorized</th>
+        <th>Clock In</th>
+        <th>Clock Out</th>
+        <th>Attendance Code</th>
+        <th>Approved</th>
+        <th>Return</th>
+        <th>Free Text</th>
+      </tr>
+    </thead>
+    <!--Data from backend-->
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </table>
+</div>
+<!--Table END-->
+
+<br><br><br><br><br>
+
+
+{% endblock content %}

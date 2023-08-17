@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--BOOTSTRAP-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <!--Static CSS-->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>{% block title %}My Site {% endblock %}</title>
+</head>
+<body>
+    <div class="wrapper">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="/home" class="nav-link">Home</a>
+                    </li>
+                </ul>
+            </div>            
+        </div>
+        <!--Login and Sign Up-->
+        <div>
+            <ul class="navbar-nav">
+                {% if user.is_authenticated %}
+                <!--<span class="navbar-text">Logged in as {{user.username}} | </span>-->
+                <li class="nav-item"><span class="navbar-text"><i>Logged in as {{user.get_full_name}}</i></span></li>
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="/login" class="nav-link">Login</a>
+                </li>
+                {% endif %}
+            </ul>  
+        </div>
+    </nav>
+    <div class="container-fluid">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!--Footer-->
+    <footer class="bg-dark text-center text-lg-start" id="footer" style="color: #fff;">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">&copy; {% now "Y" %} Copyright
+    <a class="text-light" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+        <span style="color: greenyellow;">Weir Minerals;</span>
+    </a>
+    </div>
+    </footer>
+
+        <!--BOOTSTRAP JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+        <!--JQuery-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    </div>
+</body>
+</html>
