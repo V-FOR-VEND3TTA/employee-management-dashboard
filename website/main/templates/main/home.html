@@ -1,59 +1,114 @@
 {% extends 'main/base.html' %}
+
 {% block title %}Home Page{% endblock %}
 {% block content %}
 
 <!--Search Input-->
-<div class="input-group mt-2">
-    <input type="text" class="form-control" placeholder="Search...">
-    <div class="input-group-append">
-      <!--<span class="input-group-text">Go</span>-->
-      <button type="button" class="btn btn-primary">Search</button>
-          <!-- Dropdown menu links -->
-        </ul>
+<div class="m-4">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
+    Filtered Search
+  </button>
+</div>
+
+
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">Search Form</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <!-- Include the search form here -->
+              <form method="post">
+                  {% csrf_token %}
+                  {{ form.as_p }}
+                  <button type="submit" class="btn btn-primary">Search</button>
+              </form>
+          </div>
       </div>
-    </div>
+  </div>
 </div>
 <!--Search Input End-->
 
-<!---->
+<!--CARDS START-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><b>Total Exceptions Approved:</b></p>
+                    <h3 class="card-title">123</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><b>Exceptions Not Submitted:</b></p>
+                    <h3 class="card-title">456</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><b>Exceptions Submitted Not Approved:</b></p>
+                    <h3 class="card-title">789</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><b>Overtime Approved:</b></p>
+                    <h3 class="card-title">101</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p><b>Leave Submitted:</b></p>
+                    <h3 class="card-title">202</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--CARDS END-->
 
 <!--Table START-->
 <div class="container">
   <br><br><br>
   <h3 class="m-4">Workspace</h3>
   <table class="table table-bordered" id="example" style="text-align: center;">
-    <thead class="tables-success">
+    <thead class="table-success">
       <tr>
         <th>Employee #</th>
-        <th>Shift Date</th>
-        <th>Time Code</th>
-        <th>Time Authorized</th>
-        <th>Clock In</th>
-        <th>Clock Out</th>
-        <th>Attendance Code</th>
-        <th>Approved</th>
-        <th>Return</th>
-        <th>Free Text</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Salary</th>
+        <th>Gender</th>
       </tr>
     </thead>
     <!--Data from backend-->
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
+      {% for employee in employees %}
+      <tr>
+        <td>{{ employee.id }}</td>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.occupation }}</td>
+        <td>{{ employee.salary }}</td>
+        <td>{{ employee.gender }}</td>
+      </tr>
+      {% endfor %}
   </table>
+
 </div>
 <!--Table END-->
-
-<br><br><br><br><br>
-
-
+<br><br><br><br>
 {% endblock content %}

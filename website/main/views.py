@@ -8,22 +8,29 @@ from .models import Employee
 # redirect to the following if not logged in
 @login_required(login_url="/login")
 def home(request):
-    return render(request, 'main/home.html')
+    # Retrieve all employees from the database
+    all_employees = Employee.objects.all()
+    
+    # Create a list of dictionaries, each representing an employee's data
+    employees_as_dicts = []
+    for employee in all_employees:
+        employee_data = {
+            'id': employee.id,
+            'name': employee.name,
+            'email': employee.email,
+            'department': employee.department,
+            'salary': employee.salary,
+            'gender': employee.gender,
+        }
+        employees_as_dicts.append(employee_data)
 
-@login_required(login_url="/login")
-def create_post(request):
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect("/home")
-    else:
-        form = PostForm()
-
-    return render(request, 'main/create_post.html', {"form": form})
-
+     # Create a dictionary with the data to pass to the template
+    context = {
+        'employees': employees_as_dicts,
+    }
+    
+    # Render the template with the context
+    return render(request, 'main\home.html', context)
 
 def sign_up(request):
     if request.method == 'POST':
@@ -32,7 +39,7 @@ def sign_up(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/home')
+        return redirect('/home')
     else:
         # give the user a blank form
         form = RegisterForm()
@@ -48,7 +55,6 @@ def searchView(request):
             end_date = form.cleaned_data['end_date']
             employee_number = form.cleaned_data['employee_number']
             department = form.cleaned_data['department']
-            payroll_id = form.cleaned_data['payroll_id']
             
             # Query the database based on the form input
             results = Employee.objects.filter(
@@ -56,7 +62,6 @@ def searchView(request):
                 end_date__lte=end_date,
                 employee_number__icontains=employee_number,
                 department__icontains=department,
-                payroll_id__icontains=payroll_id
             )
             
             return render(request, 'main/search_results.html', {'results': results})
