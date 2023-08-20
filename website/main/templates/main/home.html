@@ -1,41 +1,20 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Home Page{% endblock %}
+{% block title %}Weir Minerals - Employees{% endblock %}
 {% block content %}
 
 <!--Search Input-->
-<div class="m-4">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#searchModal">
-    Filtered Search
-  </button>
-</div>
-
-
-<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title" id="searchModalLabel">Search Form</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              <!-- Include the search form here -->
-              <form method="post">
-                  {% csrf_token %}
-                  {{ form.as_p }}
-                  <button type="submit" class="btn btn-primary">Search</button>
-              </form>
-          </div>
-      </div>
-  </div>
+<div class="d-flex m-5" style="width: 25%;">
+    <div class="input-group input-group-sm">
+      <input type="text" class="form-control" type="search" id="search" placeholder="Search for id, name, etc..">
+      <a href="{% url 'home' %}" class="btn btn-secondary btn-sm"><i class="fas fa-filter" aria-hidden="true"></i></a>
+    </div>
 </div>
 <!--Search Input End-->
 
 <!--CARDS START-->
 <div class="container">
-    <div class="row">
+    <div class="row m-4">
         <div class="col-md-4 mb-4">
             <div class="card">
                 <div class="card-body text-center">

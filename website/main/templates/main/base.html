@@ -12,7 +12,7 @@
     <!--Static CSS-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!--Data tables CSS-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <link href="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.1/b-html5-2.4.1/b-print-2.4.1/datatables.min.css" rel="stylesheet">
     <title>{% block title %}Weir Minerals {% endblock %}</title>
 </head>
 <body>
@@ -54,8 +54,8 @@
         <!--Footer-->
         <footer class="bg-dark text-center text-lg-start" id="footer" style="color: #fff;">
             <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">&copy; {% now "Y" %} Copyright
-                <a class="text-light" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
-                    <span style="color: greenyellow;">Weir Minerals;</span>
+                <a class="text-light" href="https://weirafricastore.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+                   <span style="color: greenyellow;">Weir Minerals;</span>
                 </a>
             </div>
         </footer>
@@ -64,22 +64,99 @@
      <!--JQuery-->
      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
      <!--Data tables JS-->
-     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-     
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+     <script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/jszip-3.10.1/dt-1.13.6/b-2.4.1/b-html5-2.4.1/b-print-2.4.1/datatables.min.js"></script>
      <!--Datatables script-->
      <!--How to use: https://datatables.net/examples/index-->
      <script>
-        $("#example").DataTable({
-            // Datatables configuration
-            paging: true,
-            pageLength: 10,
-            lengthChange: true,
-            autoWidth: true,
-            searching: true,
-            bInfo: true,
-            bSort: true,
-        })
+                $("#example").DataTable({
+                // Datatables configuration
+                paging: true, // pagination
+                pageLength: 10, // data rows per page
+                lengthChange: true, // show entries per page button
+                autoWidth: true, // if set to false, will require percentages set for width onn each column
+                searching: true, // Search functionality
+                bInfo: true, // Info on footer
+                bSort: true, // Sorting and Filter functionality
+                
+                // Disable columns with specific filter
+                // "columnDefs": [{
+                //   "targets": 5, // You can mute more than one with [#, #]
+                //    "orderable": false,
+                // }]
+                // Buttons
+                dom: 'lBfrtip',
+                buttons: [
+                    {   // Copy
+                        extend: 'copy',
+                        text: '<i class="fas fa-clone"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'Copy',
+                        // Choose the columns you wish to copy
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {  // Excel
+                        extend: 'excel',
+                        text: '<i class="fas fa-file-excel"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'Excel',
+                        // Choose the columns you wish to export to Excel
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        }
+                    },
+                    {   // Print
+                        extend: 'print',
+                        text: '<i class="fas fa-print"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'Print',
+                        // Choose the columns you wish to export
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        // Customized font size when printing
+                        customize: function ( win ) {
+                            $(win.document.body).css('font-size', '10pt')
+                            $(win.document.body).find('table')
+                                .addClass('compact')
+                                .css('font-size', 'inherit');
+                        }
+                    },
+                    {   // PDF
+                        extend: 'pdf',
+                        text: '<i class="fas fa-file-pdf"></i>',
+                        className: 'btn btn-secondary',
+                        titleAttr: 'PDF',
+                        // Choose the columns you wish to export to PDF
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5]
+                        },
+                        // Center the table
+                        tableHeader: {
+                            alignment: 'center'
+                        },
+                        // Font size and optimization
+                        customize: function (doc) {
+                            doc.styles.tableHeader.alignment = 'center'; // Header position
+                            doc.styles.tableBodyOdd.alignment = 'center'; // Body position 1 (grey color)
+                            doc.styles.tableBodyEven.alignment = 'center'; // Body position 2 (white color)
+                            doc.styles.tableHeader.fontSize = 7; // Header font size
+                            doc.defaultStyle.fontSize = 6; // Body font-size
+                            // To get 100% width of the table
+                            doc.content[1].table.widths = Array(doc.content[1].table.body[1].length + 1).join('*').split('');
+                        }
+                    },
+                        
+                ]
+            });
+            // Enable Search box outside
+            var newSearch = $("#example").DataTable();
+            $("#search").keyup(function() {
+                newSearch.search($(this).val()).draw();
+            })
      </script>
     </body>
 </html>

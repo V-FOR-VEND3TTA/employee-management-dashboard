@@ -92,7 +92,11 @@ class LeaveSubmitted(models.Model):
 """
 class ReadOnlyModel(models.Model):
     # Fields here
-
+    id
+    shift_date
+    clock_in
+    clock_out
+    
     class Meta:
         managed = False  # Set to False to prevent migrations for this model
         db_table = 'table_name_from_readonly_db'
