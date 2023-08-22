@@ -72,12 +72,31 @@ WSGI_APPLICATION = 'website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+"""
+# commented out. Only commented in when in production
+DATABASES = {
+    'default': {
+        'ENGINE': 'sql_server.pyodbc',  # Use the pyodbc engine
+        'NAME': 'SacoEnterprise',
+        'USER': 'BM',
+        'PASSWORD': '2212',
+        'HOST': 'za023pa-saco02',  # Use the server name or IP address
+        'PORT': '443',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',  # Adjust driver name if needed
+        },
+    }
+}
+"""
+
 """
 # Since we're using MSSQL, this is how we're setting up
 DATABASES = {

@@ -6,6 +6,18 @@ body {
     max-width: 100%;
 }
 
+/* LOGIN AND SIGN UP FORMS */
+/* Add animations to form controls */
+.form-control-animated {
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control-animated:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
 /* Footer */
 .wrapper {
     min-height: 100%;
@@ -38,6 +50,33 @@ body {
     border: 1px solid #6c757d;
     box-shadow: none;
 }
+
+/* How the table displays */
+table {
+    max-width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    overflow-x: auto;
+    /* Add horizontal scrollbar if needed */
+}
+
+td,
+th {
+    padding: 8px;
+    border: 1px solid #ccc;
+    word-wrap: break-word;
+    /* Allow long text to wrap within cells */
+}
+
+@media (max-width: 768px) {
+
+    /* Adjust styles for screens with a maximum width of 768px */
+    table {
+        font-size: 14px;
+    }
+}
+
+
 
 /* Data tables */
 .dataTables_paginate {

@@ -3,8 +3,8 @@ from .models import Employee
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display= ["name", "email", "department", "gender"]
-    search_fields = ['name']
+    list_display= ["id", "name", "time_authorized", "is_approved"]
+    search_fields = ['id', 'name']
     list_per_page = 8
 
 

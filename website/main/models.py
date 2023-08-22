@@ -1,58 +1,62 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
+def default_time():
+    return timezone.now().time()
 
-# Create your models here.
+from django.db import models
+
 class Employee(models.Model):
-    GENDER = (
-        ('M', 'Male'),
-        ('F', 'Female')
-    )
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=100)
-    email = models.CharField(max_length=100)
-    DEPARTMENT = (
-        ('IT', 'IT'),
-        ('Sales', 'Sales'),
-        ('Marketing', 'Marketing'),
-        ('HR', 'Human Resources'),
-    )
-    department = models.CharField(max_length=100, null=True, choices=DEPARTMENT)
-    salary = models.CharField(max_length=100)
-    gender = models.CharField(max_length=100, null=True, choices=GENDER)
+    class Department(models.TextChoices):
+        IT = 'IT', 'IT'
+        SALES = 'S', 'Sales'
+        MARKETING = 'MRKT', 'Marketing'
+        HR = 'HR', 'Human Resources'
 
-    def __str__(self):
-        return self.name
+    class TimeCode(models.TextChoices):
+        SHORT_TIME = 'ST', 'Short Time'
+        NORMAL_TIME = 'NT', 'Normal Time'
+        OVERTIME = 'OT', 'Overtime'
 
-"""
-# muted version of employee class
-class Employee(models.Model):
-    name = models.IntegerField(primary_key=True)
-    employee_name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=30)
-    DEPARTMENT = (
-        ('IT', 'IT'),
-        ('Sales', 'Sales'),
-        ('Marketing', 'Marketing'),
-        ('HR', 'Human Resources'),
+    class AttendanceCode(models.TextChoices):
+        AT_WORK = 'AW', 'At Work'
+        ON_LEAVE = 'OL', 'On Leave'
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=True)
+    department = models.CharField(
+        max_length=4,
+        choices=Department.choices,
+        default=Department.SALES,
     )
-    department = models.CharField(max_length=100, null=True, choices=DEPARTMENT)
-    shift_date = models.DateField()
-    clocked_in = models.DateTimeField()
-    clocked_out = models.DateTimeField()
-    time_approved = models.TimeField(blank=True, null=True)
-    TIMECODE = (
-        ('ST', 'Short Time'),
-        ('NT', 'Normal Time'),
-        ('OT', 'Overtime'),
+    shift_date = models.DateField(default='2023-08-01')
+    clocked_in = models.TimeField(null=True, default='08:00')
+    clocked_out = models.TimeField(blank=True, null=True)
+    time_authorized = models.TimeField(blank=True, null=True, default='09:00')
+
+    time_code = models.CharField(
+        max_length=3,
+        choices=TimeCode.choices,
+        default=TimeCode.NORMAL_TIME,
     )
-    time_code = models.CharField(max_length=20, choices=TIMECODE)
-    attendance_code = models.CharField(max_length=20, choices=[('AW', 'At Work'), ('OL', 'On Leave')])
+    attendance_code = models.CharField(
+        max_length=2,
+        choices=AttendanceCode.choices,
+        default=AttendanceCode.AT_WORK,
+    )
     is_approved = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if not self.clocked_out:
+            self.clocked_out = datetime.now().time()  # Set the current time if not provided
+        super().save(*args, **kwargs)
     
     def __str__(self):
-        return self.employee_name # What we'll be using as part of a search field
-"""
+        if self.name:
+            return self.name
+        else:
+            return str(self.pk) 
 
 # All the exceptions that will appear on the dashboard
 class TotalExceptions(models.Model):
@@ -96,7 +100,7 @@ class ReadOnlyModel(models.Model):
     shift_date
     clock_in
     clock_out
-    
+
     class Meta:
         managed = False  # Set to False to prevent migrations for this model
         db_table = 'table_name_from_readonly_db'
@@ -109,35 +113,4 @@ class ReadOnlyModel(models.Model):
 # Keep in mind that while this approach allows you to integrate read-only data, you won't be able to use Django's built-in ORM to modify or save data to this model. It's meant specifically for querying and displaying data from a read-only source.
 
 # Also, be cautious with your data source and connection settings, as read-only access should not unintentionally lead to any security issues or unintended modifications to the data.
-"""
-
-# the workspace that will display all the info we're looking for 
-"""class Workspace(models.Model):
-    employee_number = models.IntegerField(primary_key=True)
-    employee_name = models.CharField(max_length=100) # must inherit 
-    email = models.EmailField(max_length=30)
-    DEPARTMENT = (
-        ('IT', 'IT'),
-        ('Sales', 'Sales'),
-        ('Marketing', 'Marketing'),
-        ('HR', 'Human Resources'),
-    )
-    department = models.CharField(max_length=100, null=True, choices=DEPARTMENT)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    shift_date = models.DateField()
-    clocked_in = models.DateTimeField()
-    clocked_out = models.DateTimeField()
-    time_approved = models.TimeField(blank=True, null=True)
-    TIMECODE = (
-        ('ST', 'Short Time'),
-        ('NT', 'Normal Time'),
-        ('OT', 'Overtime'),
-    )
-    time_code = models.CharField(max_length=20, choices=TIMECODE)
-    attendance_code = models.CharField(max_length=20, choices=[('AW', 'At Work'), ('OL', 'On Leave')])
-    is_approved = models.BooleanField(default=False)
-    
-    def __str__(self):
-        return self.employee_name # What we'll be using as part of a search field
 """

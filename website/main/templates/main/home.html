@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}Weir Minerals - Employees{% endblock %}
 {% block content %}
@@ -6,10 +7,11 @@
 <!--Search Input-->
 <div class="d-flex m-5" style="width: 25%;">
     <div class="input-group input-group-sm">
-      <input type="text" class="form-control" type="search" id="search" placeholder="Search for id, name, etc..">
+      <input type="text" class="form-control" type="search" id="search" placeholder="Search...">
       <a href="{% url 'home' %}" class="btn btn-secondary btn-sm"><i class="fas fa-filter" aria-hidden="true"></i></a>
     </div>
 </div>
+
 <!--Search Input End-->
 
 <!--CARDS START-->
@@ -65,26 +67,45 @@
   <h3 class="m-4">Workspace</h3>
   <table class="table table-bordered" id="example" style="text-align: center;">
     <thead class="table-success">
-      <tr>
-        <th>Employee #</th>
-        <th>Name</th>
-        <th>Email</th>
+      <!--<tr>
+        <th>Emp No</th>
         <th>Department</th>
-        <th>Salary</th>
-        <th>Gender</th>
-      </tr>
+        <th>Shift Date</th>
+        <th>Clocked In</th>
+        <th>Clocked Out</th>
+        <th>Time Authorized</th>
+        <th>Time Code</th>
+        <th>Attendance Code</th>
+        <th>Approve</th>
+      </tr>-->
+      <tr>
+      <th>Emp No</th>
+      <th>Name</th>
+      <th>Department</th>
+      <th>Shift Date</th>
+      <th>Clocked In</th>
+      <th>Clocked Out</th>
+      <th>Time Authorized</th>
+      <th>Time Code</th>
+      <th>Attendance Code</th>
+      <th>Approved</th>
+    </tr>
     </thead>
     <!--Data from backend-->
-      {% for employee in employees %}
-      <tr>
-        <td>{{ employee.id }}</td>
-        <td>{{ employee.name }}</td>
-        <td>{{ employee.email }}</td>
-        <td>{{ employee.occupation }}</td>
-        <td>{{ employee.salary }}</td>
-        <td>{{ employee.gender }}</td>
-      </tr>
-      {% endfor %}
+    {% for employee in employees %}
+    <tr>
+      <td>{{ employee.id }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.department }}</td>
+      <td>{{ employee.shift_date }}</td>
+      <td>{{ employee.clocked_in }}</td>
+      <td>{{ employee.clocked_out }}</td>
+      <td>{{ employee.time_authorized }}</td>
+      <td>{{ employee.time_code }}</td>
+      <td>{{ employee.attendance_code }}</td>
+      <td>{{ employee.is_approved }}</td>
+    </tr>
+    {% endfor %}
   </table>
 
 </div>
