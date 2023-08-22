@@ -101,9 +101,25 @@
       <td>{{ employee.clocked_in }}</td>
       <td>{{ employee.clocked_out }}</td>
       <td>{{ employee.time_authorized }}</td>
-      <td>{{ employee.time_code }}</td>
-      <td>{{ employee.attendance_code }}</td>
-      <td>{{ employee.is_approved }}</td>
+      <td class="editable time-code">
+            <select class="form-select form-select-sm" aria-label="Small select example">
+                <option value="short-time">Short Time</option>
+                <option value="normal-time">Normal Time</option>
+                <option value="overtime">Overtime</option>
+            </select>
+        </td>
+      <!--Attendance Code-->
+      <td class="editable attendance-code">
+        <select class="form-select form-select-sm" aria-label="Small select example">
+            <option value="at-work">At Work</option>
+            <option value="on-leave">On Leave</option>
+            <!-- Add more options as needed -->
+        </select>
+    </td>
+      <!--Approved or not-->
+      <td class="editable approve">
+        <input type="checkbox" {% if employee.is_approved %}checked{% endif %}>
+    </td>
     </tr>
     {% endfor %}
   </table>
