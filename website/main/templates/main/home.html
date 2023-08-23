@@ -100,7 +100,11 @@
       <td>{{ employee.shift_date }}</td>
       <td>{{ employee.clocked_in }}</td>
       <td>{{ employee.clocked_out }}</td>
-      <td>{{ employee.time_authorized }}</td>
+      <!--Time authorized or approved-->
+      <td class="editable time-approved">
+        <input type="time" value="{{ attendance.time_approved }}" class="timepicker form-select-sm" style="border: none;">
+      </td>
+      <!--Time code-->
       <td class="editable time-code">
             <select class="form-select form-select-sm" aria-label="Small select example">
                 <option value="short-time">Short Time</option>

@@ -95,7 +95,7 @@
                         titleAttr: 'Copy',
                         // Choose the columns you wish to copy
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                         }
                     },
                     {  // Excel
@@ -157,6 +157,45 @@
             $("#search").keyup(function() {
                 newSearch.search($(this).val()).draw();
             })
+            
+            // For picking time in the time authorized column 
+            $(document).ready(function() {
+            // Initialize time picker for time-approved inputs
+            $('.timepicker').timepicker({
+            // Customize options if needed
+            });
+        });
+
+        // Event handler for when an editable cell is edited
+        $('#example tbody').on('change', '.editable', function() {
+            var cell = table.cell(this);
+            var row = cell.index().row;
+            var rowData = table.row(row).data();
+            var column = cell.index().column;
+            var newValue = cell.data(); // Get the new value from the cell
+
+            // Construct the data to send to the server
+            var dataToSend = {
+                employee_id: rowData[0], // Assuming employee id is in the first column
+                column_index: column,
+                new_value: newValue
+            };
+
+            // Send AJAX request to the server
+            $.ajax({
+                url: '/update-data/', // Replace with your Django URL
+                method: 'POST',
+                data: dataToSend,
+                success: function(response) {
+                    // Handle success response from the server
+                    console.log('Data updated successfully:', response);
+                },
+                error: function(error) {
+                    // Handle error response from the server
+                    console.error('Error updating data:', error);
+                }
+            });
+        });
      </script>
     </body>
 </html>
